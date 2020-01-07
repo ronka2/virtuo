@@ -32,7 +32,7 @@ const rentals = [{
     'firstName': 'Roman',
     'lastName': 'Frayssinet'
   },
-  'carId': 'f944a3ff-591b-4d5b-9b67-c7e08cba9791',
+  'carId': 'a9c1b91b-5e3d-4cec-a3cb-ef7eebb4892e',
   'pickupDate': '2020-01-02',
   'returnDate': '2020-01-02',
   'distance': 100,
@@ -157,6 +157,30 @@ const actors = [{
   }]
 }];
 
-console.log(cars);
-console.log(rentals);
-console.log(actors);
+
+function euroKilo()
+{
+  let nameD = "";
+  let price;
+
+  for(let rent in rentals)
+  {
+    nameD += rentals[rent].driver.firstName;
+    nameD += " " + rentals[rent].driver.lastName;
+    let idCar = rentals[rent].carId;
+    let carUsed = cars.find(({perDay}) => perDay === idCar);
+    //let pricePerDay = carUsed.pricePerDay;
+    let pricePerKm;
+
+    console.log(nameD);
+    console.log(carUsed);
+    nameD  = "";
+    price = 0;
+  }
+
+}
+
+euroKilo();
+//console.log(cars);
+//console.log(rentals);
+//console.log(actors);
