@@ -161,22 +161,38 @@ const actors = [{
 function euroKilo()
 {
   let nameD = "";
-  let price;
+  let idDriver ="";
+  let price = 0;
+  let repObj = [];
 
   for(let rent in rentals)
   {
     nameD += rentals[rent].driver.firstName;
     nameD += " " + rentals[rent].driver.lastName;
     let idCar = rentals[rent].carId;
-    let carUsed = cars.find(({perDay}) => perDay === idCar);
-    //let pricePerDay = carUsed.pricePerDay;
-    let pricePerKm;
 
-    console.log(nameD);
-    console.log(carUsed);
+    let pricePerDay = cars.find(x => x.id === idCar).pricePerDay;
+    let pricePerKm = cars.find(x => x.id === idCar).pricePerKm;
+    let distance = rentals[rent].distance;
+
+    let start = new Date(rentals[rent].pickupDate);
+    let end = new Date(rentals[rent].returnDate);
+    let days = Math.abs(end-start);
+    days = Math.ceil(days / (1000 * 60 * 60 * 24)) + 1;
+
+    idDriver = rentals[rent].id;
+    price = (distance*pricePerKm) + (days*pricePerDay);
+
+    let obj =  {idDriver,nameD,price,};
+    console.log(days);
+    repObj.push(obj);
+
     nameD  = "";
     price = 0;
+    idDriver ="";
   }
+
+  console.log(repObj);
 
 }
 
