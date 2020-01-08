@@ -175,6 +175,11 @@ function euroKilo()
     let pricePerKm = cars.find(x => x.id === idCar).pricePerKm;
     let distance = rentals[rent].distance;
 
+    if(distance === undefined)
+    {
+      distance = 0;
+    }
+
     let start = new Date(rentals[rent].pickupDate);
     let end = new Date(rentals[rent].returnDate);
     let days = Math.abs(end-start);
@@ -183,8 +188,20 @@ function euroKilo()
     idDriver = rentals[rent].id;
     price = (distance*pricePerKm) + (days*pricePerDay);
 
+    if(days > 10)
+    {
+      price = price - (price*0.5);
+    }
+    else if(days > 4 && days <= 10)
+    {
+      price = price - (price*0.3);
+    }
+    else if(days > 1 && days <= 4)
+    {
+      price = price - (price*0.1)
+    }
+    
     let obj =  {idDriver,nameD,price,};
-    console.log(days);
     repObj.push(obj);
 
     nameD  = "";
@@ -195,6 +212,7 @@ function euroKilo()
   console.log(repObj);
 
 }
+
 
 euroKilo();
 //console.log(cars);
