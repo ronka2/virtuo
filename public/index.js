@@ -158,12 +158,16 @@ const actors = [{
 }];
 
 
-function euroKilo()
+function virt()
 {
   let nameD = "";
   let idDriver ="";
   let price = 0;
   let repObj = [];
+  let commission = 0;
+  let insurance = 0;
+  let treasury = 0;
+  let virtuoCom = 0;
 
   for(let rent in rentals)
   {
@@ -200,8 +204,15 @@ function euroKilo()
     {
       price = price - (price*0.1)
     }
-    
-    let obj =  {idDriver,nameD,price,};
+
+    commission = price*0.3;
+    insurance = Math.round((commission*0.5)*100)/100;
+    treasury = days;
+    virtuoCom = Math.round((commission - insurance - treasury)*100)/100;
+
+    commission = {insurance,treasury,virtuoCom}
+
+    let obj =  {idDriver,nameD,price,commission};
     repObj.push(obj);
 
     nameD  = "";
@@ -214,7 +225,7 @@ function euroKilo()
 }
 
 
-euroKilo();
+virt();
 //console.log(cars);
 //console.log(rentals);
 //console.log(actors);
