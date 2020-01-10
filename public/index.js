@@ -164,10 +164,12 @@ function virt()
   let idDriver ="";
   let price = 0;
   let repObj = [];
-  let commission = 0;
+  let commission;
   let insurance = 0;
   let treasury = 0;
   let virtuoCom = 0;
+  let option;
+  let deductibleReduction = false;
 
   for(let rent in rentals)
   {
@@ -210,9 +212,16 @@ function virt()
     treasury = days;
     virtuoCom = Math.round((commission - insurance - treasury)*100)/100;
 
+    if(rentals[rent].options.deductibleReduction === true)
+    {
+      deductibleReduction = true;
+    }
+
+    option = {deductibleReduction};
+
     commission = {insurance,treasury,virtuoCom}
 
-    let obj =  {idDriver,nameD,price,commission};
+    let obj =  {idDriver,nameD,option,price,commission};
     repObj.push(obj);
 
     nameD  = "";
