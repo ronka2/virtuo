@@ -73,6 +73,7 @@ const rentals = [{
   'carId': '4afcc3a2-bbf4-44e8-b739-0179a6cd8b7d',
   'pickupDate': '2019-12-01',
   'returnDate': '2019-12-15',
+  'distance': 1000,
   'options': {
     'deductibleReduction': true
   },
@@ -170,6 +171,7 @@ function virt()
   let virtuoCom = 0;
   let option;
   let deductibleReduction = false;
+  let partnerCommission = 0;
 
   for(let rent in rentals)
   {
@@ -207,15 +209,52 @@ function virt()
       price = price - (price*0.1)
     }
 
-    commission = price*0.3;
-    insurance = Math.round((commission*0.5)*100)/100;
-    treasury = days;
-    virtuoCom = Math.round((commission - insurance - treasury)*100)/100;
-
     if(rentals[rent].options.deductibleReduction === true)
     {
       deductibleReduction = true;
+      commission = Math.round((price*0.3)*100)/100;
+      insurance = Math.round((commission*0.5)*100)/100;
+      treasury = days;
+      virtuoCom = Math.round((commission - insurance - treasury)*100)/100 + (days*4);
+      partnerCommission = price - commission;
+      price = price + (days*4);
     }
+    else{
+      commission = Math.round((price*0.3)*100)/100;
+      insurance = Math.round((commission*0.5)*100)/100;
+      treasury = days;
+      virtuoCom = Math.round((commission - insurance - treasury)*100)/100;
+    }
+
+
+    actors.forEach(function(item){
+      if(idDriver === item.rentalId)
+      {
+        item.payment.forEach(function (item) {
+          if(item.who === 'driver')
+          {
+            item.amount = price;
+          }
+          if(item.who === 'partner')
+          {
+            item.amount = partnerCommission;
+          }
+          if(item.who === 'insurance')
+          {
+            item.amount = insurance;
+          }
+          if(item.who === 'treasury')
+          {
+            item.amount = treasury;
+          }
+          if(item.who === 'virtuo')
+          {
+            item.amount = virtuoCom;
+          }
+
+        })
+      }
+    });
 
     option = {deductibleReduction};
 
@@ -235,6 +274,6 @@ function virt()
 
 
 virt();
-//console.log(cars);
-//console.log(rentals);
-//console.log(actors);
+console.log(cars);
+console.log(rentals);
+console.log(actors);
